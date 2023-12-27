@@ -18,15 +18,15 @@ const HomeScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Artists')} // Navigate to the Artists screen
+          onPress={() => navigation.navigate('artist')} // Navigate to the artist screen
         >
-          <Text style={styles.buttonText}>Explore Artists</Text>
+          <Text style={styles.buttonText}>Explore artist</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Albums')} // Navigate to the Albums screen
+          onPress={() => navigation.navigate('album')} // Navigate to the album screen
         >
-          <Text style={styles.buttonText}>Browse Albums</Text>
+          <Text style={styles.buttonText}>Browse album</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}

@@ -40,10 +40,10 @@ const NewsArticle = props => {
       />
       <View style={styles.wrapper}>
         <Text style={styles.title}>{article.title}</Text>
-        {article.artists && article.artists.length > 0 && (
+        {article.artist && article.artist.length > 0 && (
           <View>
-            <Text style={styles.details}>Artists:</Text>
-            {article.artists.map((artist, index) => (
+            <Text style={styles.details}>artist:</Text>
+            {article.artist.map((artist, index) => (
               <Text key={index} style={styles.details}>{artist.title}</Text>
             ))}
           </View>
