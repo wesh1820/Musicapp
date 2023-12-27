@@ -17,7 +17,7 @@ const NewsScreen = ({ navigation }) => {
         url = "http://10.0.2.2:<vul port in>/api/news/";
       }
       else {
-        url = "http://musicsite.ddev.site/api/album/";
+        url = "http://site.ddev.site/api/album/";
       }
 
       const response = await fetch(url, {
