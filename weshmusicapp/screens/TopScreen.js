@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Platform, Image, TouchableOpacity } from 'react-native';
-import NewsItem from '../components/AlbumItem';
-
+import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-native';
+import NewsItem from '../components/TopScreenItem';
 
 const NewsScreen = ({ navigation }) => {
   const [articles, setArticles] = useState([]);
@@ -14,7 +13,7 @@ const NewsScreen = ({ navigation }) => {
       if (Platform.OS == 'android') {
         url = "http://10.0.2.2:<vul port in>/api/news/";
       } else {
-        url = "http://site.ddev.site/api/album/";
+        url = "http://site.ddev.site/api/new/";
       }
 
       const response = await fetch(url, {
@@ -58,7 +57,6 @@ const NewsScreen = ({ navigation }) => {
         style={styles.list}
         data={articles}
         keyExtractor={(item) => item.id}
-        numColumns={2}  // Display three items in a row
         renderItem={({ item }) => {
           if (Platform.OS == 'android') {
             item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
@@ -67,10 +65,11 @@ const NewsScreen = ({ navigation }) => {
             <NewsItem
               id={item.id}
               title={item.title}
+              duration={item.duration}
               bannerImage={item.bannerImage}
               navigation={navigation}
               onSelectArticle={(selectedId) => {
-                navigation.navigate('AlbumDetails', { id: selectedId });
+                navigation.navigate('SongDetails', { id: selectedId });
               }}
             />
           );
@@ -81,29 +80,35 @@ const NewsScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#fbfafa",
-  },
-  searchInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
-  },
-  list: {
-    flex: 1,
-  },
-
-  title: {
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: 16,
-    textTransform: 'uppercase',
-    textAlign: 'center',
-  },
+    screen: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#fbfafa",
+      },
+      searchInput: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 16,
+        paddingHorizontal: 8,
+      },
+      title: {
+        fontSize: 24,
+        color: "green",
+        fontWeight: "bold",
+        textTransform: "uppercase",
+        marginBottom: 16,
+        textAlign: "center",
+      },
+      list: {
+        flex: 1,
+      },
+      image: {
+        width: 100,
+        height: 100,
+        borderRadius: 8,
+        marginBottom: 8,
+      }, 
 });
 
 export default NewsScreen;
