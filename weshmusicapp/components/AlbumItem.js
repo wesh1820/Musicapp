@@ -19,31 +19,31 @@ const NewsItem = props => {
 
 const styles = StyleSheet.create({
   newsItem: {
-    padding: 12,
+    padding: 13,
     marginVertical: 8,
-    backgroundColor: "#fff",
+    
+    borderWidth: 0,
     borderRadius: 5,
     shadowRadius: 1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
+    alignItems: 'center', // Center horizontally
   },
   image: {
-    height: 100
-  },
+    width: 150,
+    height: 150,
+    borderRadius: 8,
+    marginBottom: 8,
+  }, 
   title: {
     fontWeight: "bold",
-    color: "#D24335",
-    fontSize: 16,
+    color: "black",
+    fontSize: 10,
     marginTop: 12,
     marginBottom: 12,
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    textAlign: 'center', // Center text horizontally
   },
   intro: {
-    marginBottom: 8
+    marginBottom: 8,
   }
 });
 

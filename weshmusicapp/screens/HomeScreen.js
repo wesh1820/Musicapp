@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   button: {
-    backgroundColor: '#002043', // Spotify green color
+    backgroundColor: '#51b60b85', // Spotify green color
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,

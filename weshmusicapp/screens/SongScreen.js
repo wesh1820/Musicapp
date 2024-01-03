@@ -4,76 +4,114 @@ import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-nat
 import NewsItem from '../components/SongItem';
 
 const NewsScreen = ({ navigation }) => {
-  const [articles, getArticles] = useState([]);
+  const [articles, setArticles] = useState([]);
+  const [allArticles, setAllArticles] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getNewsArticles = async () => {
     try {
-      //127.0.0.1 -> surft naar dit toestel
-      //10.0.2.2 -> surft naar host toestel
-
       let url;
       if (Platform.OS == 'android') {
-        //ddev describe om port number te weten te komen
         url = "http://10.0.2.2:<vul port in>/api/news/";
-      }
-      else {
+      } else {
         url = "http://site.ddev.site/api/song/";
       }
 
       const response = await fetch(url, {
-        "method": "GET",
+        method: "GET",
       });
       const json = await response.json();
-      getArticles(json.items);
+      setArticles(json.items);
+      setAllArticles(json.items);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     getNewsArticles();
   }, []);
 
+  const handleSearch = (query) => {
+    // If the search query is empty, show all articles
+    if (!query) {
+      setArticles(allArticles);
+      setSearchQuery('');
+      return;
+    }
+
+    // Filter the articles based on the search query
+    const filteredArticles = allArticles.filter(item => 
+      item.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setArticles(filteredArticles);
+    setSearchQuery(query);
+  };
+
   return (
     <View style={styles.screen}>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search..."
+        value={searchQuery}
+        onChangeText={handleSearch}
+      />
       <FlatList
         style={styles.list}
         data={articles}
-        keyExtractor={item => item.id}//gebruik id als key voor de flatlist
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           if (Platform.OS == 'android') {
-            //ddev describe om port number te weten te komen
-            item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>')
+            item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
           }
-          console.log(item.bannerImage);
-          return <NewsItem
-            id={item.id}
-            title={item.title}
-            bannerImage={item.bannerImage}
-            navigation={navigation}
-            onSelectArticle={(selectedId) => { navigation.navigate('SongDetails', { id: selectedId }) }}
-          />
+          return (
+            <NewsItem
+              id={item.id}
+              title={item.title}
+              duration={item.duration}
+              bannerImage={item.bannerImage}
+              navigation={navigation}
+              onSelectArticle={(selectedId) => {
+                navigation.navigate('SongDetails', { id: selectedId });
+              }}
+            />
+          );
         }}
       />
-    </View >
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 24,
-    backgroundColor: "#F8F6F6",
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#fbfafa",
   },
-  list: {
-    height: "90%",
+  searchInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 16,
+    paddingHorizontal: 8,
   },
   title: {
     fontSize: 24,
-    color: "#D24335",
+    color: "green",
     fontWeight: "bold",
     textTransform: "uppercase",
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  list: {
+    flex: 1,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
     marginBottom: 8,
-    textAlign: "center"
-  }
+  },  
 });
+
 export default NewsScreen;

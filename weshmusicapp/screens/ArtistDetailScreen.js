@@ -11,7 +11,7 @@ const ArticleScreen = ({ route, navigation }) => {
       <Article articleId={id} />
       <Button
         title="back to news"
-        onPress={() => navigation.navigate('Artist')}
+        onPress={() => navigation.navigate('Artists')}
       />
     </View>
   );

@@ -11,7 +11,7 @@ const ArticleScreen = ({ route, navigation }) => {
       <Article articleId={id} />
       <Button
         title="back to news"
-        onPress={() => navigation.navigate('Song')}
+        onPress={() => navigation.navigate('Songs')}
       />
     </View>
   );
@@ -20,7 +20,15 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "#F8F6F6",
-  }
+    backgroundColor: "#fbfafa",
+  },
+  title: {
+    fontSize: 24,
+    color: "green",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    marginBottom: 16,
+    textAlign: "center",
+  },
 });
 export default ArticleScreen;

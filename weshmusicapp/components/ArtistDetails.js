@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Platform } from 'react-native';
 
-const NewsArticle = (props) => {
+const NewsArticle = props => {
   const [article, setArticle] = useState({});
 
   const getArticleData = async () => {
@@ -14,7 +14,7 @@ const NewsArticle = (props) => {
       }
       url += props.articleId;
       const response = await fetch(url, {
-        method: "GET",
+        "method": "GET",
       });
       const json = await response.json();
       if (Platform.OS == 'android') {
@@ -24,54 +24,55 @@ const NewsArticle = (props) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   useEffect(() => {
     getArticleData();
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.centered}>
-        <Image style={styles.image} source={{ uri: article.bannerImage }} />
-      </View>
+    <ScrollView>
+      <Image
+        style={styles.image}
+        source={{
+          uri: article.bannerImage
+        }}
+      />
       <View style={styles.wrapper}>
         <Text style={styles.title}>{article.title}</Text>
-        <Text style={styles.body}>{article.fullText}</Text>
+        {article.album && article.album.length > 0 && (
+          <View>
+            <Text style={styles.details}>Albums:</Text>
+            {article.album.map((album, index) => (
+              <Text key={index} style={styles.details}>{album.title}</Text>
+            ))}
+          </View>
+        )}
       </View>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  centered: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   image: {
-    height: 250,
-    width: 250, // Set a fixed width for a round image
-    borderRadius: 35, // Half of the width for a round shape
+    height: 150,
   },
   wrapper: {
-    padding: 24,
-    alignItems: 'center',
+    padding: 24
   },
   title: {
-    fontSize: 24,
+    fontSize: 34,
     color: "#D24335",
     fontWeight: "bold",
     textTransform: "uppercase",
     marginBottom: 24,
   },
-  body: {
-    lineHeight: 24,
-    textAlign: 'center', // Center text
+  details: {
+    fontSize: 20,
+    color: "black",
+    fontWeight: "bold",
+    marginTop: 12,
+    marginBottom: 12,
   },
 });
 

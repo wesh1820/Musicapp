@@ -10,7 +10,7 @@ const NewsArticle = props => {
       if (Platform.OS == 'android') {
         url = "http://10.0.2.2:<vul port in>/api/news/";
       } else {
-        url = "http://site.ddev.site/api/album/";
+        url = "http://site.ddev.site/api/artist/";
       }
       url += props.articleId;
       const response = await fetch(url, {
@@ -40,19 +40,11 @@ const NewsArticle = props => {
       />
       <View style={styles.wrapper}>
         <Text style={styles.title}>{article.title}</Text>
-        {/* {article.artists && article.artists.length > 0 && (
-          <View>
-            <Text style={styles.details}>artists:</Text>
-            {article.artists.map((artists, index) => (
-              <Text key={index} style={styles.details}>{artists.title}</Text>
-            ))}
-          </View>
-        )} */}
-        {article.songs && article.songs.length > 0 && (
+        {article.song && article.song.length > 0 && (
           <View>
             <Text style={styles.details}>songs:</Text>
-            {article.songs.map((songs, index) => (
-              <Text key={index} style={styles.details}>{songs.title}</Text>
+            {article.song.map((song, index) => (
+              <Text key={index} style={styles.details}>{song.title}</Text>
             ))}
           </View>
         )}

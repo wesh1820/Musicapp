@@ -1,50 +1,53 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const NewsItem = props => {
+const newsItem = (props) => {
   return (
     <TouchableOpacity activeOpacity={0.5} onPress={() => props.onSelectArticle(props.id)}>
-      <View style={styles.newsItem}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: props.bannerImage
-          }}
-        />
+      <View style={styles.container}>
+        <View style={styles.thumbnailContainer}>
+          <Image
+            style={styles.thumbnail}
+            source={{
+              uri: props.bannerImage,
+            }}
+          />
+        </View>
         <Text style={styles.title}>{props.title}</Text>
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   newsItem: {
-    padding: 12,
+    padding: 13,
     marginVertical: 8,
-    backgroundColor: "#fff",
+    
+    borderWidth: 0,
     borderRadius: 5,
     shadowRadius: 1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
+    alignItems: 'center', // Center horizontally
   },
-  image: {
-    height: 100
-  },
+  thumbnail: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    marginBottom: 8,
+    margin: 10,
+  }, 
   title: {
     fontWeight: "bold",
-    color: "#D24335",
-    fontSize: 16,
+    color: "black",
+    fontSize: 10,
     marginTop: 12,
     marginBottom: 12,
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    textAlign: 'center', // Center text horizontally
   },
   intro: {
-    marginBottom: 8
+    marginBottom: 8,
   }
 });
 
-export default NewsItem;
+export default newsItem;
