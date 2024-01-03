@@ -8,7 +8,7 @@ const initialSongs = [
   // Add more songs as needed
 ];
 
-const PlaylistScreen = () => {
+const FavoriteScreen = () => {
   const [songs, setSongs] = useState([...initialSongs]);
 
   const sortByTitle = () => {
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlaylistScreen;
+export default FavoriteScreen;

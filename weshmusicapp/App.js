@@ -11,17 +11,48 @@ import ArtistDetailScreen from './screens/ArtistDetailScreen';
 import AlbumDetailScreen from './screens/AlbumDetailScreen';
 import SongDetailScreen from './screens/SongDetailScreen';
 import HomeScreen from './screens/HomeScreen';
-import Playlist from './screens/PlaylistScreen';
+import PlaylistScreen from './screens/PlaylistScreen';
+import FavoriteScreen from './screens/FavoriteScreen';
 
-const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const TabNavigator = () => (
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ color, size }) => {
+        let iconName;
+
+        if (route.name === 'Artist') {
+          iconName = 'people';
+        } else if (route.name === 'Album') {
+          iconName = 'albums';
+        } else if (route.name === 'Song') {
+          iconName = 'musical-notes';
+        } else if (route.name === 'Home') {
+          iconName = 'home';
+        }
+
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+    })}
+    tabBarOptions={{
+      activeTintColor: '#2b6700ce',
+      inactiveTintColor: 'black',
+    }}
+  >
+    <Tab.Screen name="Home" component={HomeStack} />
+    <Tab.Screen name="Song" component={SongStack} />
+    <Tab.Screen name="Album" component={AlbumStack} />
+    <Tab.Screen name="Artist" component={ArtistStack} />
+  </Tab.Navigator>
+);
 
 const HomeStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Homes" component={HomeScreen} />
   </Stack.Navigator>
 );
-// ... (previous imports)
 
 const ArtistStack = () => (
   <Stack.Navigator>
@@ -30,66 +61,42 @@ const ArtistStack = () => (
   </Stack.Navigator>
 );
 
-// ... (rest of the code)
-
-
 const AlbumStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="Albums" component={AlbumScreen} options={{ headerShown: false }} />
     <Stack.Screen name="AlbumDetails" component={AlbumDetailScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );
+
 const SongStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="Songs" component={SongScreen} options={{ headerShown: false }} />
     <Stack.Screen name="SongDetails" component={SongDetailScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );
+
 const PlaylistStack = () => (
-  <Stack.Navigator>
-    {/* Other screens */}
-    <Stack.Screen name="Playlist" component={Playlist} options={{ headerShown: false }} />
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Playlist" component={PlaylistScreen} />
   </Stack.Navigator>
 );
 
-// ... (previous imports)
+const FavoriteStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Favorite" component={FavoriteScreen} />
+  </Stack.Navigator>
+);
 
 export default function App() {
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              let iconName;
-
-              if (route.name === 'Artist') {
-                iconName = 'people'; // Change this to the icon you want
-              } else if (route.name === 'Album') {
-                iconName = 'albums'; // Change this to the icon you want
-              } else if (route.name === 'Song') {
-                iconName = 'musical-notes'; // Change this to the icon you want
-              } else if (route.name === 'Home') {
-                iconName = 'home'; // Change this to the icon you want
-              }
-
-              
-
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: '#2b6700ce',
-            inactiveTintColor: 'black',
-          }}
-        >
-          <Tab.Screen name="Home" component={HomeStack} />
-          <Tab.Screen name="Song" component={SongStack} />
-          <Tab.Screen name="Album" component={AlbumStack} />
-          <Tab.Screen name="Artist" component={ArtistStack} />
-          <Tab.Screen name="Playlist" component={PlaylistStack} />
-          
-        </Tab.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen name="TabsPlaylist" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="Playlist" component={PlaylistStack} />
+          <Stack.Screen name="TabsFavorite" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="Favorite" component={FavoriteStack} />
+        </Stack.Navigator>
       </NavigationContainer>
     </View>
   );
@@ -98,7 +105,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red', // Change the background color here
+    backgroundColor: 'red',
   },
 });
-

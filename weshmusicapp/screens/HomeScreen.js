@@ -1,38 +1,39 @@
-// HomeScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'; // You can choose a different icon library
 
 const HomeScreen = ({ navigation }) => {
+  const userName = "John"; // Replace with your actual name
+
   return (
     <View style={styles.container}>
       <ImageBackground
         style={styles.background}
         source={require('../assets/rock.jpeg')} // Replace with your background image
       >
-        <ImageBackground
-          style={styles.logoContainer}
-          source={require('../assets/logo.png')} // Replace with your app logo
+        <View style={styles.contentContainer}>
+          <Text style={styles.welcomeText}>Welcome, {userName}!</Text>
+        </View>
+
+        {/* Move the settings icon outside of the contentContainer */}
+        <TouchableOpacity
+          onPress={() => console.log('Settings pressed')}
+          style={styles.settingsIconContainer}
         >
-          <Text style={styles.title}></Text>
-        </ImageBackground>
+          <Icon name="cog" size={30} color="white" />
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('NewsItem')} // Navigate to the artist screen
+          onPress={() => navigation.navigate('Playlist')}
         >
-          <Text style={styles.buttonText}>Explore Playlist</Text>
+          <Text style={styles.buttonText}>My Playlists</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Albums')} // Navigate to the album screen
+          onPress={() => navigation.navigate('Favorite')}
         >
-          <Text style={styles.buttonText}>Browse album</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Songs')} // Navigate to the Songs screen
-        >
-          <Text style={styles.buttonText}>Discover Songs</Text>
+          <Text style={styles.buttonText}>My favorites</Text>
         </TouchableOpacity>
       </ImageBackground>
     </View>
@@ -49,18 +50,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     resizeMode: 'cover',
   },
-  logoContainer: {
-    width: '60%',
-    height: '23%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 260,
-    marginLeft: -140,
+  contentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center', // Center items vertically
+    width: '80%', // Adjust the width as needed
+    marginBottom: 20,
   },
-  title: {
-    fontSize: 36,
+  welcomeText: {
+    fontSize: 12,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#51b60b85',
+    marginBottom: 430,
+    marginLeft: 190,
+    textDecorationLine: 'underline',
+  },
+  settingsIconContainer: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
   },
   button: {
     backgroundColor: '#51b60b85', // Spotify green color
