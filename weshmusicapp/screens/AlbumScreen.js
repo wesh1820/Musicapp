@@ -101,19 +101,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 8,
   },
-  thumbnailContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  thumbnail: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    borderRadius: 40,
-  },
+
   title: {
     fontWeight: 'bold',
     color: 'black',

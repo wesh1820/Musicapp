@@ -1,21 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const NewsItem = props => {
+const newsItem = (props) => {
   return (
     <TouchableOpacity activeOpacity={0.5} onPress={() => props.onSelectArticle(props.id)}>
-      <View style={styles.newsItem}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: props.bannerImage
-          }}
-        />
+      <View style={styles.container}>
+        <View style={styles.thumbnailContainer}>
+          <Image
+            style={styles.thumbnail}
+            source={{
+              uri: props.bannerImage,
+            }}
+          />
+        </View>
         <Text style={styles.title}>{props.title}</Text>
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   newsItem: {
@@ -27,11 +29,12 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     alignItems: 'center', // Center horizontally
   },
-  image: {
+  thumbnail: {
     width: 150,
     height: 150,
-    borderRadius: 8,
+    borderRadius: 10,
     marginBottom: 8,
+    margin: 10,
   }, 
   title: {
     fontWeight: "bold",
@@ -47,4 +50,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NewsItem;
+export default newsItem;
