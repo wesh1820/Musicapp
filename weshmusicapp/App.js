@@ -10,12 +10,15 @@ import SongScreen from './screens/SongScreen';
 import ArtistDetailScreen from './screens/ArtistDetailScreen';
 import AlbumDetailScreen from './screens/AlbumDetailScreen';
 import SongDetailScreen from './screens/SongDetailScreen';
+import TopDetailScreen from './screens/TopDetailScreen';
 import HomeScreen from './screens/HomeScreen';
 import PlaylistScreen from './screens/PlaylistScreen';
 import FavoriteScreen from './screens/FavoriteScreen';
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
 
 const TabNavigator = () => (
   <Tab.Navigator
@@ -51,6 +54,7 @@ const TabNavigator = () => (
 const HomeStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Homes" component={HomeScreen} />
+    <Stack.Screen name="TopDetails" component={TopDetailScreen} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 
@@ -75,6 +79,7 @@ const SongStack = () => (
   </Stack.Navigator>
 );
 
+
 const PlaylistStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Playlist" component={PlaylistScreen} />
@@ -87,14 +92,13 @@ const FavoriteStack = () => (
   </Stack.Navigator>
 );
 
-export default function App() {
+const App = () => {
   return (
     <View style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="TabsPlaylist" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Playlist" component={PlaylistStack} />
-          <Stack.Screen name="TabsFavorite" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Favorite" component={FavoriteStack} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -107,4 +111,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'red',
   },
+
+  
 });
+
+export default App;

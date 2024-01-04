@@ -1,44 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
-const NewsItem = (props) => {
-  const navigation = useNavigation();
-  const [isLiked, setIsLiked] = useState(false);
+const SongItem = (props) => {
+  const handleLikeButtonPress = () => {
+    // Call the parent function to add/remove the song from the liked songs list
+    props.onLikeButtonPress(props.id);
 
-  const handlePress = () => {
-    // Toggle the like state
-    setIsLiked(!isLiked);
-
-    // Navigate to the Playlist screen
-    navigation.navigate('Playlist', { songId: props.id });
+    // Navigate to the 'Favorite' screen
+    props.navigation.navigate('Favorite');
   };
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.5}
-      onPress={handlePress}
-    >
-      <View style={styles.newsItem}>
+    <TouchableOpacity activeOpacity={0.5} onPress={() => props.onSelectArticle(props.id)}>
+      <View style={styles.songItem}>
         <Image
           style={styles.thumbnail}
-          source={{
-            uri: props.bannerImage,
-          }}
+          source={{ uri: props.bannerImage }}
         />
         <View style={styles.songDetails}>
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.duration}>{props.duration}</Text>
         </View>
-        <TouchableOpacity
-          onPress={handlePress}
-        >
-          <Icon
-            name={isLiked ? 'dot-circle-o' : 'plus'} // Use 'plus' for not liked, 'dot-circle-o' for liked
-            size={25}
-            color="black"
-          />
+        <TouchableOpacity onPress={handleLikeButtonPress}>
+          <Text style={[styles.likeButton, { color: props.isLiked ? 'red' : 'blue' }]}>
+            {props.isLiked ? 'Unlike' : 'Like'}
+          </Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -46,7 +32,7 @@ const NewsItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  newsItem: {
+  songItem: {
     flexDirection: 'row',
     padding: 12,
     marginVertical: 8,
@@ -77,11 +63,10 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
   },
-  button: {
-    borderRadius: 5,
-    marginLeft: 10,
-    padding: 10,
+  likeButton: {
+    fontSize: 16,
+    marginLeft: 8,
   },
 });
 
-export default NewsItem;
+export default SongItem;

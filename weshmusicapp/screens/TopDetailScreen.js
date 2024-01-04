@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 
-import Article from '../components/SongDetails';
+import Article from '../components/TopDetails';
 
 const ArticleScreen = ({ route, navigation }) => {
   const { id } = route.params;
@@ -11,7 +11,7 @@ const ArticleScreen = ({ route, navigation }) => {
       <Article articleId={id} />
       <Button
         title="back to news"
-        onPress={() => navigation.navigate('Songs')}
+        onPress={() => navigation.navigate('Top')}
       />
     </View>
   );

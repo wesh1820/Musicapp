@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, FlatList, Pl
 import Icon from 'react-native-vector-icons/FontAwesome';
 import NewsItem from '../components/TopScreenItem';
 
+
 const HomeScreen = ({ navigation }) => {
   const userName = "John";
   const [articles, setArticles] = useState([]);
@@ -72,7 +73,7 @@ const HomeScreen = ({ navigation }) => {
                   bannerImage={item.bannerImage}
                   navigation={navigation}
                   onSelectArticle={(selectedId) => {
-                    navigation.navigate('SongDetails', { id: selectedId });
+                    navigation.navigate('TopDetails', { id: selectedId });
                   }}
                 />
               );
