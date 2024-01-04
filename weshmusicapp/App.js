@@ -54,7 +54,7 @@ const TabNavigator = () => (
 const HomeStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Homes" component={HomeScreen} />
-    <Stack.Screen name="TopDetails" component={TopDetailScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="Top40" component={TopDetailScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );
 

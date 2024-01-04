@@ -9,10 +9,6 @@ const ArticleScreen = ({ route, navigation }) => {
   return (
     <View style={styles.screen}>
       <Article articleId={id} />
-      <Button
-        title="back to news"
-        onPress={() => navigation.navigate('Songs')}
-      />
     </View>
   );
 }

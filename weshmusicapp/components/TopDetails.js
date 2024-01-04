@@ -34,16 +34,16 @@ const NewsArticle = (props) => {
       <Image style={styles.image} source={{ uri: article.bannerImage }} />
       <View style={styles.container}>
         <Text style={styles.title}>{article.title}</Text>
-        <Text style={styles.sectionTitle}>Songs:</Text>
 {article.song && article.song.length > 0 && (
   <View style={styles.songList}>
-    {article.song.map((song, index) => (
-      <View key={index} style={styles.songItem}>
-        <Text style={styles.details}>{`${song.title} - ${song.duration}`}</Text>
-        {index < article.song.length - 1 && <View style={styles.separator} />}
-      </View>
-    ))}
-  </View>
+  {article.song.map((song, index) => (
+    <View key={index} style={styles.songItem}>
+      <Text style={styles.details}>{`${index + 1}. ${song.title} - ${song.duration}`}</Text>
+      {index < article.song.length - 1 && <View style={styles.separator} />}
+    </View>
+  ))}
+</View>
+
 )}
       </View>
     </ScrollView>
@@ -66,14 +66,13 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 250,
-    width: 250,
+    width: 400,
     resizeMode: 'cover',
-    borderRadius: 8,
   },
   
   title: {
     fontSize: 32,
-    color: 'black',
+    color: '#51b60b85',
     fontWeight: 'bold',
     textTransform: 'uppercase',
     marginBottom: 16,

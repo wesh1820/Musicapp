@@ -1,103 +1,117 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-native';
+import NewsItem from '../components/PlaylistItem';
 
-const initialSongs = [
-  { id: '1', title: 'Song 3', artist: 'Artist 3' },
-  { id: '2', title: 'Song 1', artist: 'Artist 1' },
-  { id: '3', title: 'Song 2', artist: 'Artist 2' },
-  // Add more songs as needed
-];
+const NewsScreen = ({ navigation }) => {
+  const [articles, setArticles] = useState([]);
+  const [allArticles, setAllArticles] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-const PlaylistScreen = () => {
-  const [songs, setSongs] = useState([...initialSongs]);
+  const API_URL = Platform.OS === 'android'
+    ? 'http://10.0.2.2:<vul port in>/api/news/'
+    : 'http://site.ddev.site/api/song/';
 
-  const sortByTitle = () => {
-    const sorted = [...songs].sort((a, b) => a.title.localeCompare(b.title));
-    setSongs(sorted);
+  const getNewsArticles = async () => {
+    try {
+      const response = await fetch(API_URL, {
+        method: 'GET',
+      });
+      const json = await response.json();
+      setArticles(json.items);
+      setAllArticles(json.items);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError('Error fetching data');
+      setLoading(false);
+    }
   };
 
-  const shuffleSongs = () => {
-    const shuffled = [...songs].sort(() => Math.random() - 0.5);
-    setSongs(shuffled);
+  useEffect(() => {
+    getNewsArticles();
+  }, []);
+
+  const handleSearch = (query) => {
+    if (!query) {
+      setArticles(allArticles);
+      setSearchQuery('');
+      return;
+    }
+
+    const filteredArticles = allArticles.filter(item => 
+      item.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setArticles(filteredArticles);
+    setSearchQuery(query);
   };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.songContainer}>
-      <View style={styles.songDetails}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.artist}>{item.artist}</Text>
+  if (loading) {
+    return (
+      <View style={styles.screen}>
+        <Text>Loading...</Text>
       </View>
-    </View>
-  );
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.screen}>
+        <Text>{error}</Text>
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={sortByTitle}>
-          <Text style={styles.buttonText}>Sort by Title</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={shuffleSongs}>
-          <Text style={styles.buttonText}>Shuffle</Text>
-        </TouchableOpacity>
-      </View>
+    <View style={styles.screen}>
       <FlatList
-        data={songs}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
+        style={styles.list}
+        data={articles}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => {
+          if (Platform.OS === 'android') {
+            item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
+          }
+          return (
+<NewsItem
+  id={item.id}
+  title={item.title}
+  duration={item.duration}
+  bannerImage={item.bannerImage}
+  navigation={navigation}
+  onSelectArticle={(selectedId) => {
+    navigation.navigate('SongDetails', { id: selectedId });
+  }}
+  onLikeButtonPress={(songId) => {
+    // Your logic to handle like button press
+    console.log(`Like button pressed for song with ID: ${songId}`);
+  }}
+/>
+
+          );
+        }}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#fff',
+    padding: 20,
+    backgroundColor: '#fbfafa',
   },
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
-    margin: 30,
+  searchInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 16,
+    paddingHorizontal: 8,
   },
-  button: {
-    backgroundColor: '#51b60b85',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
+  list: {
     flex: 1,
-    marginHorizontal: 5,
-    margin: 10,
-  },
-  buttonText: {
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  songContainer: {
-    flexDirection: 'row',
-    padding: 12,
-    marginVertical: 8,
-    backgroundColor: '#51b60b85',
-    borderRadius: 5,
-    shadowRadius: 1,
-    alignItems: 'center', // Center horizontally
-    margin: 30,
-  },
-  songDetails: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  title: {
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: 16,
-    textTransform: 'uppercase',
-    textAlign: 'center', // Center text horizontally
-  },
-  artist: {
-    color: 'black',
-    textAlign: 'center',
   },
 });
 
-export default PlaylistScreen;
+export default NewsScreen;

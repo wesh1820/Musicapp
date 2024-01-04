@@ -73,7 +73,7 @@ const HomeScreen = ({ navigation }) => {
                   bannerImage={item.bannerImage}
                   navigation={navigation}
                   onSelectArticle={(selectedId) => {
-                    navigation.navigate('TopDetails', { id: selectedId });
+                    navigation.navigate('Top40', { id: selectedId });
                   }}
                 />
               );

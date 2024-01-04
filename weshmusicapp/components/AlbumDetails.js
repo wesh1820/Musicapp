@@ -11,7 +11,7 @@ const NewsArticle = (props) => {
         // Use the correct URL for Android
         url = `http://10.0.2.2:<vul port in>/api/news/${props.articleId}`;
       } else {
-        url = "http://site.ddev.site/api/song/";
+        url = "http://site.ddev.site/api/album/";
         url += props.articleId;
       }
       const response = await fetch(url, {
@@ -40,7 +40,7 @@ const NewsArticle = (props) => {
       <Image style={styles.image} source={{ uri: article.bannerImage }} />
       <View style={styles.container}>
         <Text style={styles.title}>{article.title}</Text>
-        <Text style={styles.nationality}>#{article.nationality}</Text>
+        <Text style={styles.nationality}>#{article.release}</Text>
         <Text style={styles.sectionTitle}>Songs:</Text>
 {article.song && article.song.length > 0 && (
   <View style={styles.songList}>
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     height: 350,
     width: '100%',
     resizeMode: 'cover',
-    borderRadius: 8,
   },
   
   title: {

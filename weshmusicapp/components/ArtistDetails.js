@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     height: 350,
     width: '100%',
     resizeMode: 'cover',
-    borderRadius: 8,
   },
   
   title: {
