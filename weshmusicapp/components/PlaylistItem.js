@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const SongItem = (props) => {
+const PlaylistItem = (props) => {
 
 
   return (
     <TouchableOpacity>
-      <View style={styles.songItem}>
+      <View style={styles.PlaylistItem}>
         <Image
           style={styles.thumbnail}
           source={{ uri: props.bannerImage }}
         />
-        <View style={styles.songDetails}>
+        <View style={styles.PlaylistDetails}>
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.duration}>{props.duration}</Text>
         </View>
@@ -21,7 +21,7 @@ const SongItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  songItem: {
+  PlaylistItem: {
     flexDirection: 'row',
     padding: 12,
     marginVertical: 8,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginRight: 12,
   },
-  songDetails: {
+  PlaylistDetails: {
     flex: 1,
     flexDirection: 'column',
   },
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SongItem;
+export default PlaylistItem;

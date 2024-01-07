@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Platform } from 'react-native';
 
-const NewsArticle = (props) => {
-  const [article, setArticle] = useState({});
+const TopDetails = (props) => {
+  const [TopD, setTop] = useState({});
 
-  const getArticleData = async () => {
+  const getTopData = async () => {
     try {
       let url;
       if (Platform.OS === 'android') {
@@ -19,27 +19,27 @@ const NewsArticle = (props) => {
       if (Platform.OS === 'android') {
         json.bannerImage = json.bannerImage.replace('craft-news-a.ddev.site', `10.0.2.2:<vul port in>`);
       }
-      setArticle(json);
+      setTop(json);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    getArticleData();
+    getTopData();
   }, []);
 
   return (
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
-      <Image style={styles.image} source={{ uri: article.bannerImage }} />
+      <Image style={styles.image} source={{ uri: TopD.bannerImage }} />
       <View style={styles.container}>
-        <Text style={styles.title}>{article.title}</Text>
-{article.song && article.song.length > 0 && (
+        <Text style={styles.title}>{TopD.title}</Text>
+{TopD.song && TopD.song.length > 0 && (
   <View style={styles.songList}>
-  {article.song.map((song, index) => (
+  {TopD.song.map((song, index) => (
     <View key={index} style={styles.songItem}>
       <Text style={styles.details}>{`${index + 1}. ${song.title} - ${song.duration}`}</Text>
-      {index < article.song.length - 1 && <View style={styles.separator} />}
+      {index < TopD.song.length - 1 && <View style={styles.separator} />}
     </View>
   ))}
 </View>
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsArticle;
+export default TopDetails;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 
-import Article from '../components/ArtistDetails';
+import ArtistD from '../components/ArtistDetails';
 
 const ArtistDetailScreen = ({ route, navigation }) => {
   const { id } = route.params;
 
   return (
     <View style={styles.screen}>
-      <Article articleId={id} />
+      <ArtistD articleId={id} />
     </View>
   );
 };

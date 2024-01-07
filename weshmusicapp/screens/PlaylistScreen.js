@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-native';
 import NewsItem from '../components/PlaylistItem';
 
-const NewsScreen = ({ navigation }) => {
-  const [articles, setArticles] = useState([]);
-  const [allArticles, setAllArticles] = useState([]);
+const PlaylistScreen = ({ navigation }) => {
+  const [PlaylistD, setPlaylist] = useState([]);
+  const [AllPlaylist, setAllPlaylist] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,14 +13,14 @@ const NewsScreen = ({ navigation }) => {
     ? 'http://10.0.2.2:<vul port in>/api/news/'
     : 'http://site.ddev.site/api/song/';
 
-  const getNewsArticles = async () => {
+  const getPlaylist = async () => {
     try {
       const response = await fetch(API_URL, {
         method: 'GET',
       });
       const json = await response.json();
-      setArticles(json.items);
-      setAllArticles(json.items);
+      setPlaylist(json.items);
+      setAllPlaylist(json.items);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -30,20 +30,20 @@ const NewsScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getNewsArticles();
+    getPlaylist();
   }, []);
 
   const handleSearch = (query) => {
     if (!query) {
-      setArticles(allArticles);
+      setPlaylist(AllPlaylist);
       setSearchQuery('');
       return;
     }
 
-    const filteredArticles = allArticles.filter(item => 
+    const filteredArticles = AllPlaylist.filter(item => 
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-    setArticles(filteredArticles);
+    setPlaylist(filteredArticles);
     setSearchQuery(query);
   };
 
@@ -67,7 +67,7 @@ const NewsScreen = ({ navigation }) => {
     <View style={styles.screen}>
       <FlatList
         style={styles.list}
-        data={articles}
+        data={PlaylistD}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           if (Platform.OS === 'android') {
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsScreen;
+export default PlaylistScreen;

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, Platform, Image, TouchableOpacity } from 'react-native';
-import NewsItem from '../components/AlbumItem';
+import AlbumItem from '../components/AlbumItem';
 
 
 const NewsScreen = ({ navigation }) => {
-  const [articles, setArticles] = useState([]);
-  const [allArticles, setAllArticles] = useState([]);
+  const [AlbumD, setAlbum] = useState([]);
+  const [allAlbumD, setAllArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const getNewsArticles = async () => {
+  const getAlbum = async () => {
     try {
       let url;
       if (Platform.OS == 'android') {
@@ -21,7 +21,7 @@ const NewsScreen = ({ navigation }) => {
         method: "GET",
       });
       const json = await response.json();
-      setArticles(json.items);
+      setAlbum(json.items);
       setAllArticles(json.items);
     } catch (error) {
       console.error(error);
@@ -29,20 +29,20 @@ const NewsScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getNewsArticles();
+    getAlbum();
   }, []);
 
   const handleSearch = (query) => {
     if (!query) {
-      setArticles(allArticles);
+      setAlbum(allAlbumD);
       setSearchQuery('');
       return;
     }
 
-    const filteredArticles = allArticles.filter(item => 
+    const filteredArticles = allAlbumD.filter(item => 
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-    setArticles(filteredArticles);
+    setAlbum(filteredArticles);
     setSearchQuery(query);
   };
 
@@ -56,7 +56,7 @@ const NewsScreen = ({ navigation }) => {
       />
       <FlatList
         style={styles.list}
-        data={articles}
+        data={AlbumD}
         keyExtractor={(item) => item.id}
         numColumns={2}  // Display three items in a row
         renderItem={({ item }) => {
@@ -64,7 +64,7 @@ const NewsScreen = ({ navigation }) => {
             item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
           }
           return (
-            <NewsItem
+            <AlbumItem
               id={item.id}
               title={item.title}
               bannerImage={item.bannerImage}

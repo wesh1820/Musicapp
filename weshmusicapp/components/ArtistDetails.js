@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Platform } from 'react-native';
 
-const NewsArticle = (props) => {
-  const [article, setArticle] = useState({});
+const ArtistDetails = (props) => {
+  const [ArtistD, setArtistD] = useState({});
 
-  const getArticleData = async () => {
+  const getArtistData = async () => {
     try {
       let url;
       if (Platform.OS === 'android') {
@@ -19,29 +19,29 @@ const NewsArticle = (props) => {
       if (Platform.OS === 'android') {
         json.bannerImage = json.bannerImage.replace('craft-news-a.ddev.site', `10.0.2.2:<vul port in>`);
       }
-      setArticle(json);
+      setArtistD(json);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    getArticleData();
+    getArtistData();
   }, []);
 
   return (
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
-      <Image style={styles.image} source={{ uri: article.bannerImage }} />
+      <Image style={styles.image} source={{ uri: ArtistD.bannerImage }} />
       <View style={styles.container}>
-        <Text style={styles.title}>{article.title}</Text>
-        <Text style={styles.nationality}>#{article.nationality}</Text>
+        <Text style={styles.title}>{ArtistD.title}</Text>
+        <Text style={styles.nationality}>#{ArtistD.nationality}</Text>
         <Text style={styles.sectionTitle}>Songs:</Text>
-{article.song && article.song.length > 0 && (
+{ArtistD.song && ArtistD.song.length > 0 && (
   <View style={styles.songList}>
-    {article.song.map((song, index) => (
+    {ArtistD.song.map((song, index) => (
       <View key={index} style={styles.songItem}>
         <Text style={styles.details}>{`${song.title} - ${song.duration}`}</Text>
-        {index < article.song.length - 1 && <View style={styles.separator} />}
+        {index < ArtistD.song.length - 1 && <View style={styles.separator} />}
       </View>
     ))}
   </View>
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsArticle;
+export default ArtistDetails;

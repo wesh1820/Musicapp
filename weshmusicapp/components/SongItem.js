@@ -7,7 +7,7 @@ const SongItem = (props) => {
     props.onLikeButtonPress(props.id);
 
     // Navigate to the 'Favorite' screen
-    props.navigation.navigate('Favorite');
+    props.navigation.navigate('Favorites');
   };
 
   return (

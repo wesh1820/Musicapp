@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 
-import Article from '../components/SongDetails';
+import SongD from '../components/SongDetails';
 
-const ArticleScreen = ({ route, navigation }) => {
+const SongScreen = ({ route, navigation }) => {
   const { id } = route.params;
 
   return (
     <View style={styles.screen}>
-      <Article articleId={id} />
+      <SongD articleId={id} />
     </View>
   );
 }
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F6F6",
   }
 });
-export default ArticleScreen;
+export default SongScreen;

@@ -3,12 +3,12 @@ import { StyleSheet, Text, View, FlatList, TextInput, Platform, Image, Touchable
 import NewsItem from '../components/ArtistItem';
 
 
-const NewsScreen = ({ navigation }) => {
-  const [articles, setArticles] = useState([]);
-  const [allArticles, setAllArticles] = useState([]);
+const ArtistScreen = ({ navigation }) => {
+  const [ArtistD, setArtist] = useState([]);
+  const [allArtistD, setAllArtist] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const getNewsArticles = async () => {
+  const getArtist = async () => {
     try {
       let url;
       if (Platform.OS == 'android') {
@@ -21,28 +21,28 @@ const NewsScreen = ({ navigation }) => {
         method: "GET",
       });
       const json = await response.json();
-      setArticles(json.items);
-      setAllArticles(json.items);
+      setArtist(json.items);
+      setAllArtist(json.items);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    getNewsArticles();
+    getArtist();
   }, []);
 
   const handleSearch = (query) => {
     if (!query) {
-      setArticles(allArticles);
+      setArtist(allArtistD);
       setSearchQuery('');
       return;
     }
 
-    const filteredArticles = allArticles.filter(item => 
+    const filteredArticles = allArtistD.filter(item => 
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-    setArticles(filteredArticles);
+    setArtist(filteredArticles);
     setSearchQuery(query);
   };
 
@@ -56,7 +56,7 @@ const NewsScreen = ({ navigation }) => {
       />
       <FlatList
         style={styles.list}
-        data={articles}
+        data={ArtistD}
         keyExtractor={(item) => item.id}
         numColumns={2}  // Display three items in a row
         renderItem={({ item }) => {
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsScreen;
+export default ArtistScreen;

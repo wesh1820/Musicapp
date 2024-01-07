@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, Platform, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-const NewsArticle = (props) => {
-  const [article, setArticle] = useState({});
+const NewsSong = (props) => {
+  const [SongD, setSong] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [showLyrics, setShowLyrics] = useState(false);
 
-  const getArticleData = async () => {
+  const getSongData = async () => {
     try {
       let url;
       if (Platform.OS === 'android') {
@@ -22,7 +22,7 @@ const NewsArticle = (props) => {
       if (Platform.OS === 'android') {
         json.bannerImage = json.bannerImage.replace('craft-news-a.ddev.site', `10.0.2.2:<vul port in>`);
       }
-      setArticle(json);
+      setSong(json);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ const NewsArticle = (props) => {
   };
 
   useEffect(() => {
-    getArticleData();
+    getSongData();
   }, []);
 
   const handleShowLyrics = () => {
@@ -51,15 +51,15 @@ const NewsArticle = (props) => {
           <View style={styles.imageContainer}>
             <Image
               style={styles.image}
-              source={{ uri: article.bannerImage }}
+              source={{ uri: SongD.bannerImage }}
             />
           </View>
           <View style={styles.contentContainer}>
-            <Text style={styles.title}>{article.title}</Text>
+            <Text style={styles.title}>{SongD.title}</Text>
 
-            {article.artist && article.artist.length > 0 && (
+            {SongD.artist && SongD.artist.length > 0 && (
               <View>
-                {article.artist.map((artist, index) => (
+                {SongD.artist.map((artist, index) => (
                   <Text key={index} style={styles.details}>
                     Artist: {artist.title}
                   </Text>
@@ -69,7 +69,7 @@ const NewsArticle = (props) => {
 
             {/* Add the WebView component for the YouTube video */}
             <WebView
-              source={{ uri: article.videoclip }}
+              source={{ uri: SongD.videoclip }}
               style={styles.video}
             />
 
@@ -83,10 +83,10 @@ const NewsArticle = (props) => {
               </TouchableOpacity>
             )}
 
-            {showLyrics && article.lyrics && (
+            {showLyrics && SongD.lyrics && (
               <View style={styles.lyricsContainer}>
                 <Text style={[styles.lyrics, styles.centeredText]}>
-                  {article.lyrics.replace(/<\/?[^>]+(>|$)/g, "")}
+                  {SongD.lyrics.replace(/<\/?[^>]+(>|$)/g, "")}
                 </Text>
               </View>
             )}
@@ -170,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsArticle;
+export default NewsSong;

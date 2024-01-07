@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-native';
 import NewsItem from '../components/SongItem';
 
-const NewsScreen = ({ navigation }) => {
-  const [articles, setArticles] = useState([]);
-  const [allArticles, setAllArticles] = useState([]);
+const SongScreen = ({ navigation }) => {
+  const [SongD, setSong] = useState([]);
+  const [allSong, setAllSong] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,14 +13,14 @@ const NewsScreen = ({ navigation }) => {
     ? 'http://10.0.2.2:<vul port in>/api/news/'
     : 'http://site.ddev.site/api/song/';
 
-  const getNewsArticles = async () => {
+  const getSong = async () => {
     try {
       const response = await fetch(API_URL, {
         method: 'GET',
       });
       const json = await response.json();
-      setArticles(json.items);
-      setAllArticles(json.items);
+      setSong(json.items);
+      setAllSong(json.items);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -30,20 +30,20 @@ const NewsScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getNewsArticles();
+    getSong();
   }, []);
 
   const handleSearch = (query) => {
     if (!query) {
-      setArticles(allArticles);
+      setSong(allSong);
       setSearchQuery('');
       return;
     }
 
-    const filteredArticles = allArticles.filter(item => 
+    const filteredArticles = allSong.filter(item => 
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-    setArticles(filteredArticles);
+    setSong(filteredArticles);
     setSearchQuery(query);
   };
 
@@ -73,7 +73,7 @@ const NewsScreen = ({ navigation }) => {
       />
       <FlatList
         style={styles.list}
-        data={articles}
+        data={SongD}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           if (Platform.OS === 'android') {
@@ -120,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsScreen;
+export default SongScreen;

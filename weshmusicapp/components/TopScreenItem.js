@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const newsItem = (props) => {
+const TopItem = (props) => {
   return (
     <TouchableOpacity activeOpacity={0.5} onPress={() => props.onSelectArticle(props.id)}>
       <View style={styles.container}>
@@ -20,7 +20,7 @@ const newsItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  newsItem: {
+  TopItem: {
     padding: 13,
     marginVertical: 8,
     borderWidth: 0,
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default newsItem;
+export default TopItem;
