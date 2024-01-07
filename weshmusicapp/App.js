@@ -15,10 +15,8 @@ import HomeScreen from './screens/HomeScreen';
 import PlaylistScreen from './screens/PlaylistScreen';
 import FavoriteScreen from './screens/FavoriteScreen';
 
-
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
 
 const TabNavigator = () => (
   <Tab.Navigator
@@ -38,11 +36,15 @@ const TabNavigator = () => (
 
         return <Ionicons name={iconName} size={size} color={color} />;
       },
+      tabBarActiveTintColor: "#2b6700ce",
+      tabBarInactiveTintColor: "black",
+      tabBarStyle: [
+        {
+          "display": "flex"
+        },
+        null
+      ]
     })}
-    tabBarOptions={{
-      activeTintColor: '#2b6700ce',
-      inactiveTintColor: 'black',
-    }}
   >
     <Tab.Screen name="Home" component={HomeStack} />
     <Tab.Screen name="Song" component={SongStack} />
@@ -79,7 +81,6 @@ const SongStack = () => (
   </Stack.Navigator>
 );
 
-
 const PlaylistStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Playlist" component={PlaylistScreen} />
@@ -111,8 +112,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'red',
   },
-
-  
 });
 
 export default App;

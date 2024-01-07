@@ -86,10 +86,10 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity onPress={() => console.log('Settings pressed')} style={buttonsStyles.settingsIconContainer}>
             <Icon name="cog" size={30} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={buttonsStyles.button} onPress={() => navigation.navigate('Playlist')}>
+          <TouchableOpacity style={buttonsStyles.button} onPress={() => navigation.navigate('Playlists')}>
             <Text style={buttonsStyles.buttonText}>My Playlists</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={buttonsStyles.button} onPress={() => navigation.navigate('Favorite')}>
+          <TouchableOpacity style={buttonsStyles.button} onPress={() => navigation.navigate('Favorites')}>
             <Text style={buttonsStyles.buttonText}>My Favorites</Text>
           </TouchableOpacity>
         </View>
