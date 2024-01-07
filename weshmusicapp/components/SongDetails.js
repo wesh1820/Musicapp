@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, Platform, TouchableOpacity } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 const NewsArticle = (props) => {
   const [article, setArticle] = useState({});
@@ -65,6 +66,13 @@ const NewsArticle = (props) => {
                 ))}
               </View>
             )}
+
+            {/* Add the WebView component for the YouTube video */}
+            <WebView
+              source={{ uri: article.videoclip }}
+              style={styles.video}
+            />
+
             {!showLyrics ? (
               <TouchableOpacity onPress={handleShowLyrics}>
                 <Text style={styles.showLyricsButton}>Show Lyrics</Text>
@@ -122,7 +130,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'uppercase',
     marginBottom: 24,
-
   },
   lyricsContainer: {
     backgroundColor: "#51b60b85",

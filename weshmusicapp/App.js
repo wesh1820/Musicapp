@@ -98,8 +98,8 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
-          <Stack.Screen name="Playlist" component={PlaylistStack} />
-          <Stack.Screen name="Favorite" component={FavoriteStack} />
+          <Stack.Screen name="Playlists" component={PlaylistStack} />
+          <Stack.Screen name="Favorites" component={FavoriteStack} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
