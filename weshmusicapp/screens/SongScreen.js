@@ -19,8 +19,10 @@ const SongScreen = ({ navigation }) => {
         method: 'GET',
       });
       const json = await response.json();
-      setSong(json.items);
-      setAllSong(json.items);
+      // Adding a 'liked' property to each song object
+      const songsWithLikedStatus = json.items.map(song => ({ ...song, liked: false }));
+      setSong(songsWithLikedStatus);
+      setAllSong(songsWithLikedStatus);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -40,11 +42,28 @@ const SongScreen = ({ navigation }) => {
       return;
     }
 
-    const filteredArticles = allSong.filter(item => 
+    const filteredSongs = allSong.filter(item =>
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-    setSong(filteredArticles);
+    setSong(filteredSongs);
     setSearchQuery(query);
+  };
+
+  const handleLikeButtonPress = (songId) => {
+    // Find the song by ID
+    const selectedSongIndex = allSong.findIndex(song => song.id === songId);
+
+    // Toggle the like/dislike status
+    const updatedSongs = [...allSong];
+    if (selectedSongIndex !== -1) {
+      updatedSongs[selectedSongIndex].liked = !updatedSongs[selectedSongIndex].liked;
+    }
+
+    setAllSong(updatedSongs);
+
+    // Display the status
+    const status = updatedSongs[selectedSongIndex].liked ? 'Liked' : 'Disliked';
+    console.log(`${status} Song Title: ${updatedSongs[selectedSongIndex].title}`);
   };
 
   if (loading) {
@@ -80,21 +99,18 @@ const SongScreen = ({ navigation }) => {
             item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
           }
           return (
-<NewsItem
-  id={item.id}
-  title={item.title}
-  duration={item.duration}
-  bannerImage={item.bannerImage}
-  navigation={navigation}
-  onSelectArticle={(selectedId) => {
-    navigation.navigate('SongDetails', { id: selectedId });
-  }}
-  onLikeButtonPress={(songId) => {
-    // Your logic to handle like button press
-    console.log(`Like button pressed for song with ID: ${songId}`);
-  }}
-/>
-
+            <NewsItem
+              id={item.id}
+              title={item.title}
+              duration={item.duration}
+              bannerImage={item.bannerImage}
+              navigation={navigation}
+              liked={item.liked} // Pass liked status to the NewsItem component
+              onSelectArticle={(selectedId) => {
+                navigation.navigate('SongDetails', { id: selectedId });
+              }}
+              onLikeButtonPress={(songId) => handleLikeButtonPress(songId)}
+            />
           );
         }}
       />

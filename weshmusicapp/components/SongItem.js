@@ -5,9 +5,6 @@ const SongItem = (props) => {
   const handleLikeButtonPress = () => {
     // Call the parent function to add/remove the song from the liked songs list
     props.onLikeButtonPress(props.id);
-
-    // Navigate to the 'Favorite' screen
-    props.navigation.navigate('Favorites');
   };
 
   return (
@@ -22,8 +19,8 @@ const SongItem = (props) => {
           <Text style={styles.duration}>{props.duration}</Text>
         </View>
         <TouchableOpacity onPress={handleLikeButtonPress}>
-          <Text style={[styles.likeButton, { color: props.isLiked ? 'red' : 'blue' }]}>
-            {props.isLiked ? 'Unlike' : 'Like'}
+          <Text style={[styles.likeButton, { color: props.liked ? 'red' : 'blue' }]}>
+            {props.liked ? 'Dislike' : 'Like'}
           </Text>
         </TouchableOpacity>
       </View>
