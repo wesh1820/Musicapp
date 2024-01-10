@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 20,
+    backgroundColor: 'white',
   },
   searchInput: {
     height: 40,

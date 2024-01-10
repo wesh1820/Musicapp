@@ -25,11 +25,11 @@ const TabNavigator = () => (
       tabBarIcon: ({ color, size }) => {
         let iconName;
 
-        if (route.name === 'Artist') {
+        if (route.name === 'Artists') {
           iconName = 'people';
-        } else if (route.name === 'Album') {
+        } else if (route.name === 'Albums') {
           iconName = 'albums';
-        } else if (route.name === 'Song') {
+        } else if (route.name === 'Songs') {
           iconName = 'musical-notes';
         } else if (route.name === 'Home') {
           iconName = 'home';
@@ -37,47 +37,45 @@ const TabNavigator = () => (
 
         return <Ionicons name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: "#2b6700ce",
-      tabBarInactiveTintColor: "black",
-      tabBarStyle: [
-        {
-          "display": "flex"
-        },
-        null
-      ]
+      tabBarActiveTintColor: "#678751",
+      tabBarInactiveTintColor: "white",
+      tabBarStyle: {
+        backgroundColor: '#1a1a1af0', // Set background color to black
+        borderTopColor: 'transparent', // Remove the border at the top
+      },
     })}
   >
     <Tab.Screen name="Home" component={HomeStack} />
-    <Tab.Screen name="Song" component={SongStack} />
-    <Tab.Screen name="Album" component={AlbumStack} />
-    <Tab.Screen name="Artist" component={ArtistStack} />
+    <Tab.Screen name="Songs" component={SongStack} />
+    <Tab.Screen name="Albums" component={AlbumStack} />
+    <Tab.Screen name="Artists" component={ArtistStack} />
   </Tab.Navigator>
 );
 
 const HomeStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Homes" component={HomeScreen} />
+    <Stack.Screen name="Home" component={HomeScreen} />
     <Stack.Screen name="Top40" component={TopDetailScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );
 
 const ArtistStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Artists" component={ArtistScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="Artist" component={ArtistScreen} options={{ headerShown: false }} />
     <Stack.Screen name="ArtistDetails" component={ArtistDetailScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );
 
 const AlbumStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Albums" component={AlbumScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="Album" component={AlbumScreen} options={{ headerShown: false }} />
     <Stack.Screen name="AlbumDetails" component={AlbumDetailScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );
 
 const SongStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Songs" component={SongScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="Song" component={SongScreen} options={{ headerShown: false }} />
     <Stack.Screen name="SongDetails" component={SongDetailScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );

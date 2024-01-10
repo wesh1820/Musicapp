@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "#F8F6F6",
   }
 });
 export default SongScreen;

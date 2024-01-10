@@ -20,7 +20,7 @@ const SongItem = (props) => {
         <Text style={styles.duration}>{props.duration}</Text>
         </View>
         <TouchableOpacity onPress={handleLikeButtonPress}>
-        <Text style={[styles.likeButton, { color: isLiked ? 'red' : 'black' }]}>
+        <Text style={[styles.likeButton, { color: isLiked }]}>
             {isLiked ? '❤️' : '🤍'}
           </Text>
         </TouchableOpacity>

@@ -127,12 +127,10 @@ const SongScreen = ({ navigation }) => {
       />
 
       {/* Liked Songs Section */}
-      <TouchableOpacity onPress={navigateToLikedSongs}>
-        {/* Container with border radius */}
-        <View style={styles.buttonContainer}>
-          <Text style={styles.sectionTitle}>Liked Songs</Text>
-        </View>
-      </TouchableOpacity>
+
+      <TouchableOpacity style={buttonsStyles.button} onPress={navigateToLikedSongs}>
+            <Text style={buttonsStyles.buttonText}>Liked Songs</Text>
+          </TouchableOpacity>
     </View>
   );
 };
@@ -141,6 +139,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 20,
+    backgroundColor: 'white',
   },
   searchInput: {
     height: 40,
@@ -160,10 +159,34 @@ const styles = StyleSheet.create({
     color: 'white', // Change the color to green or any desired color
     padding: 10, // Adjust padding as needed
     width: 353,
-    backgroundColor: '#51b60b85',
+    backgroundColor: '#285d04e3',
   },
-  // New styles for the container around the Liked Songs button
 
+});
+const buttonsStyles = StyleSheet.create({
+  buttonsContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    width: '80%', // Adjust the width as needed
+  },
+  settingsIconContainer: {
+    position: 'absolute',
+    top: -445,
+    right: -24,
+  },
+  button: {
+    backgroundColor: '#285d04e3',
+    padding: 10,
+    borderRadius: 10,
+    width: '100%', // Adjust the width as needed
+    alignItems: 'center',
+    borderBottomColor: 'white',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });
 
 export default SongScreen;

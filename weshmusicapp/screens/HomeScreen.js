@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, FlatList, Platform } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import NewsItem from '../components/TopScreenItem';
 
 
@@ -91,6 +90,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   background: {
     flex: 1,
@@ -140,13 +140,12 @@ const buttonsStyles = StyleSheet.create({
     right: -24,
   },
   button: {
-    backgroundColor: '#51b60b85',
-    padding: 20,
+    backgroundColor: '#285d04e3',
+    padding: 10,
     borderRadius: 10,
-    marginBottom: 40,
-    width: '100%', // Adjust the width as needed
+    marginBottom: 20,
+    width: '112%', // Adjust the width as needed
     alignItems: 'center',
-    borderBottomWidth: 3,
     borderBottomColor: 'white',
   },
   buttonText: {
