@@ -81,7 +81,7 @@ const FavoritesScreen = ({ navigation }) => {
   bannerImage={item.bannerImage}
   navigation={navigation}
   onSelectArticle={(selectedId) => {
-    navigation.navigate('SongDetails', { id: selectedId });
+ 
   }}
   onLikeButtonPress={(songId) => {
     // Your logic to handle like button press

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity, Platform } from 'react-native';
 import NewsItem from '../components/SongItem';
 
 const SongScreen = ({ navigation }) => {
@@ -35,6 +35,11 @@ const SongScreen = ({ navigation }) => {
     getSong();
   }, []);
 
+  // Function to filter liked songs
+  const getLikedSongs = () => {
+    return allSong.filter(song => song.liked);
+  };
+
   const handleSearch = (query) => {
     if (!query) {
       setSong(allSong);
@@ -50,20 +55,19 @@ const SongScreen = ({ navigation }) => {
   };
 
   const handleLikeButtonPress = (songId) => {
-    // Find the song by ID
-    const selectedSongIndex = allSong.findIndex(song => song.id === songId);
-
     // Toggle the like/dislike status
-    const updatedSongs = [...allSong];
-    if (selectedSongIndex !== -1) {
-      updatedSongs[selectedSongIndex].liked = !updatedSongs[selectedSongIndex].liked;
-    }
+    const updatedSongs = allSong.map(song =>
+      song.id === songId
+        ? { ...song, liked: !song.liked, disliked: song.liked ? false : !song.disliked }
+        : song
+    );
 
     setAllSong(updatedSongs);
 
     // Display the status
-    const status = updatedSongs[selectedSongIndex].liked ? 'Liked' : 'Disliked';
-    console.log(`${status} Song Title: ${updatedSongs[selectedSongIndex].title}`);
+    const status = updatedSongs.find(song => song.id === songId);
+    const likeStatus = status.liked ? 'Liked' : status.disliked ? 'Disliked' : 'Neither Liked nor Disliked';
+    console.log(`${likeStatus} Song Title: ${status.title}`);
   };
 
   if (loading) {
@@ -82,6 +86,11 @@ const SongScreen = ({ navigation }) => {
     );
   }
 
+  const navigateToLikedSongs = () => {
+    const likedSongs = getLikedSongs();
+    navigation.navigate('LikedSongs', { likedSongs });
+  };
+
   return (
     <View style={styles.screen}>
       <TextInput
@@ -90,6 +99,8 @@ const SongScreen = ({ navigation }) => {
         value={searchQuery}
         onChangeText={handleSearch}
       />
+
+      {/* All Songs Section */}
       <FlatList
         style={styles.list}
         data={SongD}
@@ -114,6 +125,14 @@ const SongScreen = ({ navigation }) => {
           );
         }}
       />
+
+      {/* Liked Songs Section */}
+      <TouchableOpacity onPress={navigateToLikedSongs}>
+        {/* Container with border radius */}
+        <View style={styles.buttonContainer}>
+          <Text style={styles.sectionTitle}>Liked Songs</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -133,6 +152,22 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: 'white', // Change the color to green or any desired color
+    padding: 10, // Adjust padding as needed
+    width: 135,
+  },
+  // New styles for the container around the Liked Songs button
+  buttonContainer: {
+    borderRadius: 15,
+    overflow: 'hidden',
+    backgroundColor: '#2b6700ce', // Background color
+    padding: 1, // Adjust padding as needed
+    width: 135,
   },
 });
 

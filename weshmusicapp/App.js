@@ -14,6 +14,7 @@ import TopDetailScreen from './screens/TopDetailScreen';
 import HomeScreen from './screens/HomeScreen';
 import PlaylistScreen from './screens/PlaylistScreen';
 import FavoriteScreen from './screens/FavoriteScreen';
+import LikedSongsScreen from './screens/LikedSongsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -101,6 +102,11 @@ const App = () => {
           <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Playlists" component={PlaylistStack} />
           <Stack.Screen name="Favorites" component={FavoriteStack} />
+        <Stack.Screen
+          name="LikedSongs"
+          component={LikedSongsScreen}
+          options={{ title: 'Liked Songs' }}
+        />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
