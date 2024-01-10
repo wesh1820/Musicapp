@@ -106,9 +106,10 @@ const styles = StyleSheet.create({
     marginLeft: 330,
   },
   welcomeText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
+    
   },
   centeredContainer: {
     flex: 1,

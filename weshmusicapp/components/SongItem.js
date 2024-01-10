@@ -17,11 +17,11 @@ const SongItem = (props) => {
           <Text style={[styles.title, isLiked && styles.likedTitle]}>
             {props.title}
           </Text>
-          {!isLiked && <Text style={styles.duration}>{props.duration}</Text>}
+        <Text style={styles.duration}>{props.duration}</Text>
         </View>
         <TouchableOpacity onPress={handleLikeButtonPress}>
-          <Text style={[styles.likeButton, { color: isLiked ? 'red' : 'blue' }]}>
-            {isLiked ? 'Unlike' : 'Like'}
+        <Text style={[styles.likeButton, { color: isLiked ? 'red' : 'black' }]}>
+            {isLiked ? '❤️' : '🤍'}
           </Text>
         </TouchableOpacity>
       </View>
