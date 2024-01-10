@@ -3,16 +3,19 @@ import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-nat
 import NewsItem from '../components/PlaylistItem';
 
 const PlaylistScreen = ({ navigation }) => {
+  // State voor het opslaan van afspeellijstgegevens
   const [PlaylistD, setPlaylist] = useState([]);
   const [AllPlaylist, setAllPlaylist] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Bepaal de API URL op basis van het besturingssysteem
   const API_URL = Platform.OS === 'android'
     ? 'http://10.0.2.2:<vul port in>/api/news/'
     : 'http://site.ddev.site/api/song/';
 
+  // Functie om afspeellijstgegevens op te halen
   const getPlaylist = async () => {
     try {
       const response = await fetch(API_URL, {
@@ -29,10 +32,12 @@ const PlaylistScreen = ({ navigation }) => {
     }
   };
 
+  // Haal afspeellijstgegevens op bij het laden van het scherm
   useEffect(() => {
     getPlaylist();
   }, []);
 
+  // Functie om afspeellijst te filteren op basis van zoekopdracht
   const handleSearch = (query) => {
     if (!query) {
       setPlaylist(AllPlaylist);
@@ -47,6 +52,7 @@ const PlaylistScreen = ({ navigation }) => {
     setSearchQuery(query);
   };
 
+  // Weergave tijdens het laden
   if (loading) {
     return (
       <View style={styles.screen}>
@@ -55,6 +61,7 @@ const PlaylistScreen = ({ navigation }) => {
     );
   }
 
+  // Weergave bij fouten
   if (error) {
     return (
       <View style={styles.screen}>
@@ -63,6 +70,7 @@ const PlaylistScreen = ({ navigation }) => {
     );
   }
 
+  // Weergave van de afspeellijst
   return (
     <View style={styles.screen}>
       <FlatList
@@ -71,24 +79,24 @@ const PlaylistScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           if (Platform.OS === 'android') {
+            // Vervang 'craft-news-a.ddev.site' door '10.0.2.2:<vul port in>'
             item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
           }
           return (
-<NewsItem
-  id={item.id}
-  title={item.title}
-  duration={item.duration}
-  bannerImage={item.bannerImage}
-  navigation={navigation}
-  onSelectArticle={(selectedId) => {
-    navigation.navigate('SongDetails', { id: selectedId });
-  }}
-  onLikeButtonPress={(songId) => {
-    // Your logic to handle like button press
-    console.log(`Like button pressed for song with ID: ${songId}`);
-  }}
-/>
-
+            <NewsItem
+              id={item.id}
+              title={item.title}
+              duration={item.duration}
+              bannerImage={item.bannerImage}
+              navigation={navigation}
+              onSelectArticle={(selectedId) => {
+                navigation.navigate('SongDetails', { id: selectedId });
+              }}
+              onLikeButtonPress={(songId) => {
+                // Je logica om met de like-knop te werken
+                console.log(`Like button pressed for song with ID: ${songId}`);
+              }}
+            />
           );
         }}
       />
@@ -96,6 +104,7 @@ const PlaylistScreen = ({ navigation }) => {
   );
 };
 
+// Stijlen
 const styles = StyleSheet.create({
   screen: {
     flex: 1,

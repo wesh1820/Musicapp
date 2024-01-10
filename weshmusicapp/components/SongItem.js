@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 const SongItem = (props) => {
+  // State voor het bijhouden van de like-status
   const [isLiked, setIsLiked] = useState(false);
 
+  // Functie om de like-status om te schakelen en de knopdruk door te geven aan de bovenliggende component
   const handleLikeButtonPress = () => {
     setIsLiked(!isLiked);
     props.onLikeButtonPress(props.id);
@@ -12,15 +14,23 @@ const SongItem = (props) => {
   return (
     <TouchableOpacity activeOpacity={0.5} onPress={() => props.onSelectArticle(props.id)}>
       <View style={styles.songItem}>
+        {/* Thumbnail afbeelding */}
         <Image style={styles.thumbnail} source={{ uri: props.bannerImage }} />
+
+        {/* Details van het nummer */}
         <View style={styles.songDetails}>
+          {/* Titel */}
           <Text style={[styles.title, isLiked && styles.likedTitle]}>
             {props.title}
           </Text>
-        <Text style={styles.duration}>{props.duration}</Text>
+
+          {/* Duur van het nummer */}
+          <Text style={styles.duration}>{props.duration}</Text>
         </View>
+
+        {/* Like-knop */}
         <TouchableOpacity onPress={handleLikeButtonPress}>
-        <Text style={[styles.likeButton, { color: isLiked }]}>
+          <Text style={[styles.likeButton, { color: isLiked ? 'red' : 'white' }]}>
             {isLiked ? '❤️' : '🤍'}
           </Text>
         </TouchableOpacity>
@@ -29,6 +39,7 @@ const SongItem = (props) => {
   );
 };
 
+// Stijlen
 const styles = StyleSheet.create({
   songItem: {
     flexDirection: 'row',
@@ -58,7 +69,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   likedTitle: {
-    textDecorationLine: 'none', // Remove underline when liked
+    textDecorationLine: 'none', 
   },
   duration: {
     color: 'black',

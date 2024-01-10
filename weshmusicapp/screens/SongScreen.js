@@ -3,23 +3,26 @@ import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity, Platform
 import NewsItem from '../components/SongItem';
 
 const SongScreen = ({ navigation }) => {
+  // State voor het opslaan van de songgegevens
   const [SongD, setSong] = useState([]);
   const [allSong, setAllSong] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // API URL op basis van het besturingssysteem
   const API_URL = Platform.OS === 'android'
     ? 'http://10.0.2.2:<vul port in>/api/news/'
     : 'http://site.ddev.site/api/song/';
 
+  // Functie om songgegevens op te halen
   const getSong = async () => {
     try {
       const response = await fetch(API_URL, {
         method: 'GET',
       });
       const json = await response.json();
-      // Adding a 'liked' property to each song object
+      // Een 'liked' eigenschap toevoegen aan elk song-object
       const songsWithLikedStatus = json.items.map(song => ({ ...song, liked: false }));
       setSong(songsWithLikedStatus);
       setAllSong(songsWithLikedStatus);
@@ -31,15 +34,17 @@ const SongScreen = ({ navigation }) => {
     }
   };
 
+  // Haal songgegevens op bij het laden van het scherm
   useEffect(() => {
     getSong();
   }, []);
 
-  // Function to filter liked songs
+  // Functie om gelikete songs te filteren
   const getLikedSongs = () => {
     return allSong.filter(song => song.liked);
   };
 
+  // Functie om de zoekopdracht toe te passen op songs
   const handleSearch = (query) => {
     if (!query) {
       setSong(allSong);
@@ -54,8 +59,9 @@ const SongScreen = ({ navigation }) => {
     setSearchQuery(query);
   };
 
+  // Functie om de like-knop te behandelen
   const handleLikeButtonPress = (songId) => {
-    // Toggle the like/dislike status
+    // Wissel de like/dislike-status om
     const updatedSongs = allSong.map(song =>
       song.id === songId
         ? { ...song, liked: !song.liked, disliked: song.liked ? false : !song.disliked }
@@ -64,12 +70,13 @@ const SongScreen = ({ navigation }) => {
 
     setAllSong(updatedSongs);
 
-    // Display the status
+    // Toon de status
     const status = updatedSongs.find(song => song.id === songId);
     const likeStatus = status.liked ? 'Liked' : status.disliked ? 'Disliked' : 'Neither Liked nor Disliked';
     console.log(`${likeStatus} Song Title: ${status.title}`);
   };
 
+  // Weergave tijdens het laden
   if (loading) {
     return (
       <View style={styles.screen}>
@@ -78,6 +85,7 @@ const SongScreen = ({ navigation }) => {
     );
   }
 
+  // Weergave bij fouten
   if (error) {
     return (
       <View style={styles.screen}>
@@ -86,13 +94,16 @@ const SongScreen = ({ navigation }) => {
     );
   }
 
+  // Navigeer naar de gelikete songs
   const navigateToLikedSongs = () => {
     const likedSongs = getLikedSongs();
     navigation.navigate('LikedSongs', { likedSongs });
   };
 
+  // Weergave van het songscherm
   return (
     <View style={styles.screen}>
+      {/* Zoekbalk */}
       <TextInput
         style={styles.searchInput}
         placeholder="Search..."
@@ -100,7 +111,7 @@ const SongScreen = ({ navigation }) => {
         onChangeText={handleSearch}
       />
 
-      {/* All Songs Section */}
+      {/* Alle songs sectie */}
       <FlatList
         style={styles.list}
         data={SongD}
@@ -116,7 +127,7 @@ const SongScreen = ({ navigation }) => {
               duration={item.duration}
               bannerImage={item.bannerImage}
               navigation={navigation}
-              liked={item.liked} // Pass liked status to the NewsItem component
+              liked={item.liked} // Doorgeven van de like-status aan de NewsItem-component
               onSelectArticle={(selectedId) => {
                 navigation.navigate('SongDetails', { id: selectedId });
               }}
@@ -126,15 +137,15 @@ const SongScreen = ({ navigation }) => {
         }}
       />
 
-      {/* Liked Songs Section */}
-
+      {/* Liked Songs sectie */}
       <TouchableOpacity style={buttonsStyles.button} onPress={navigateToLikedSongs}>
-            <Text style={buttonsStyles.buttonText}>Liked Songs</Text>
-          </TouchableOpacity>
+        <Text style={buttonsStyles.buttonText}>Liked Songs</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
+// Stijlen
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -152,33 +163,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 15,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    color: 'white', // Change the color to green or any desired color
-    padding: 10, // Adjust padding as needed
-    width: 353,
-    backgroundColor: '#285d04e3',
-  },
-
 });
+
 const buttonsStyles = StyleSheet.create({
-  buttonsContainer: {
-    alignItems: 'center',
-    marginTop: 20,
-    width: '80%', // Adjust the width as needed
-  },
-  settingsIconContainer: {
-    position: 'absolute',
-    top: -445,
-    right: -24,
-  },
   button: {
     backgroundColor: '#285d04e3',
     padding: 10,
     borderRadius: 10,
-    width: '100%', // Adjust the width as needed
+    width: '100%',
     alignItems: 'center',
     borderBottomColor: 'white',
   },

@@ -2,13 +2,21 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 
 const LikedSongsScreen = ({ route }) => {
+  // Ontvang de gelikete nummers uit de navigatieparameters
   const { likedSongs } = route.params;
+
+  // State om de zoekopdracht en gefilterde nummers bij te houden
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredLikedSongs, setFilteredLikedSongs] = useState(likedSongs);
 
+  // Functie om een geliket nummer weer te geven wanneer erop wordt geklikt
   const renderLikedSongItem = ({ item }) => {
+    const handleSongPress = () => {
+      // Voeg hier de gewenste actie toe wanneer een lied wordt aangeraakt
+    };
+
     return (
-      <TouchableOpacity activeOpacity={0.5} onPress={null}>
+      <TouchableOpacity activeOpacity={0.5} onPress={handleSongPress}>
         <View style={styles.songItem}>
           <Image style={styles.thumbnail} source={{ uri: item.bannerImage }} />
           <View style={styles.songDetails}>
@@ -20,6 +28,7 @@ const LikedSongsScreen = ({ route }) => {
     );
   };
 
+  // Functie om de lijst van gelikete nummers te filteren op basis van zoekopdracht
   const handleSearch = (text) => {
     setSearchQuery(text);
     const filteredSongs = likedSongs.filter((song) =>
@@ -30,15 +39,18 @@ const LikedSongsScreen = ({ route }) => {
 
   return (
     <View style={styles.screen}>
+      {/* Zoekbalk voor het filteren van gelikete nummers op basis van de titel */}
       <TextInput
         style={styles.searchInput}
         placeholder="Search songs"
         value={searchQuery}
         onChangeText={handleSearch}
       />
+
+      {/* Lijst met gelikete nummers */}
       <FlatList
         data={filteredLikedSongs}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()} // Zorg ervoor dat item.id een stringwaarde is
         renderItem={renderLikedSongItem}
       />
     </View>
@@ -46,6 +58,7 @@ const LikedSongsScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  // Stijlen voor de gelikete nummers schermcomponent
   songItem: {
     flexDirection: 'row',
     padding: 12,

@@ -7,24 +7,25 @@ const AlbumDetails = (props) => {
   const getAlbumData = async () => {
     try {
       let url;
-      if (Platform.OS == 'android') {
-        // Use the correct URL for Android
-        url = `http://10.0.2.2:<vul port in>/api/news/${props.articleId}`;
+      if (Platform.OS === 'android') {
+        // Gebruik de juiste URL voor Android
+        url = `http://10.0.2.2:<vul port in>/api/album/${props.articleId}`;
       } else {
-        url = "http://site.ddev.site/api/album/";
-        url += props.articleId;
+        // Gebruik de juiste URL voor andere platforms
+        url = `http://site.ddev.site/api/album/${props.articleId}`;
       }
-      const response = await fetch(url, {
-        method: "GET",
-      });
+      
+      const response = await fetch(url, { method: 'GET' });
       const json = await response.json();
-      if (Platform.OS == 'android' && json.bannerImage) {
-        // Replace the domain in the bannerImage URL for Android
+      
+      if (Platform.OS === 'android' && json.bannerImage) {
+        // Vervang het domein in de bannerImage URL voor Android
         json.bannerImage = json.bannerImage.replace(
-          "craft-news-a.ddev.site",
-          "10.0.2.2:<vul port in>"
+          'craft-news-a.ddev.site',
+          '10.0.2.2:<vul port in>'
         );
       }
+
       setAlbum(json);
     } catch (error) {
       console.error(error);
@@ -40,18 +41,19 @@ const AlbumDetails = (props) => {
       <Image style={styles.image} source={{ uri: albumD.bannerImage }} />
       <View style={styles.container}>
         <Text style={styles.title}>{albumD.title}</Text>
-        <Text style={styles.nationality}>#{albumD.release}</Text>
+        <Text style={styles.nationality}>Release: {albumD.release}</Text>
         <Text style={styles.sectionTitle}>Songs:</Text>
-{albumD.song && albumD.song.length > 0 && (
-  <View style={styles.songList}>
-    {albumD.song.map((song, index) => (
-      <View key={index} style={styles.songItem}>
-        <Text style={styles.details}>{`${song.title} - ${song.duration}`}</Text>
-        {index < albumD.song.length - 1 && <View style={styles.separator} />}
-      </View>
-    ))}
-  </View>
-)}
+
+        {albumD.song && albumD.song.length > 0 && (
+          <View style={styles.songList}>
+            {albumD.song.map((song, index) => (
+              <View key={index} style={styles.songItem}>
+                <Text style={styles.details}>{`${song.title} - ${song.duration}`}</Text>
+                {index < albumD.song.length - 1 && <View style={styles.separator} />}
+              </View>
+            ))}
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -73,7 +75,6 @@ const styles = StyleSheet.create({
     width: '100%',
     resizeMode: 'cover',
   },
-  
   title: {
     fontSize: 32,
     color: 'black',
@@ -105,13 +106,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textTransform: 'uppercase',
   },
-  detailsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  songItem: {
+    marginBottom: 8,
   },
   separator: {
-    borderBottomColor: '#51b60b85', // Light gray color
+    borderBottomColor: '#51b60b85', // Lichtgrijze kleur
     borderBottomWidth: 2,
     marginVertical: 8,
   },

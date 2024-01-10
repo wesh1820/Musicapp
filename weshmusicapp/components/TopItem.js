@@ -20,20 +20,14 @@ const TopItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  TopItem: {
-    padding: 13,
-    marginVertical: 8,
-    borderWidth: 0,
-    borderRadius: 5,
-    shadowRadius: 1,
-    alignItems: 'center', // Center horizontally
-    backgroundColor: '#51b60b85',
-  },
   container: {
     padding: 3,
     marginVertical: 8,
     shadowRadius: 1,
-    alignItems: 'center', // Center horizontally
+    alignItems: 'center', // Horizontaal centreren
+  },
+  thumbnailContainer: {
+    alignItems: 'center', // Horizontaal centreren
   },
   thumbnail: {
     width: 330,
@@ -41,7 +35,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 8,
     margin: 10,
-  }, 
+  },
   title: {
     fontWeight: "bold",
     color: "black",
@@ -49,11 +43,8 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 12,
     textTransform: "uppercase",
-    textAlign: 'center', // Center text horizontally
+    textAlign: 'center', // Horizontaal centreren
   },
-  intro: {
-    marginBottom: 8,
-  }
 });
 
 export default TopItem;

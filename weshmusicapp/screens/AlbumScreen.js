@@ -1,68 +1,91 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Platform, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Platform } from 'react-native';
 import AlbumItem from '../components/AlbumItem';
 
-
-const NewsScreen = ({ navigation }) => {
-  const [AlbumD, setAlbum] = useState([]);
-  const [allAlbumD, setAllArticles] = useState([]);
+const AlbumScreen = ({ navigation }) => {
+  // State voor het bijhouden van albumgegevens
+  const [albumData, setAlbumData] = useState([]);
+  
+  // State voor het bijhouden van alle albumgegevens (ongefilterd)
+  const [allAlbumData, setAllAlbumData] = useState([]);
+  
+  // State voor het bijhouden van de zoekquery
   const [searchQuery, setSearchQuery] = useState('');
 
-  const getAlbum = async () => {
+  // Functie om albumgegevens op te halen van de API
+  const getAlbumData = async () => {
     try {
+      // Bepaal de API-URL op basis van het besturingssysteem
       let url;
-      if (Platform.OS == 'android') {
+      if (Platform.OS === 'android') {
         url = "http://10.0.2.2:<vul port in>/api/news/";
       } else {
         url = "http://site.ddev.site/api/album/";
       }
 
+      // Voer een GET-verzoek uit om albumgegevens op te halen
       const response = await fetch(url, {
         method: "GET",
       });
+
+      // Converteer het antwoord naar JSON-formaat
       const json = await response.json();
-      setAlbum(json.items);
-      setAllArticles(json.items);
+
+      // Zet de ontvangen albumgegevens in de staat
+      setAlbumData(json.items);
+
+      // Zet de ontvangen albumgegevens ook in een staat voor ongefilterde gegevens
+      setAllAlbumData(json.items);
     } catch (error) {
       console.error(error);
     }
   };
 
+  // Effect hook om de albumgegevens op te halen wanneer de component is gemonteerd
   useEffect(() => {
-    getAlbum();
+    getAlbumData();
   }, []);
 
+  // Functie om de albums te filteren op basis van de zoekquery
   const handleSearch = (query) => {
     if (!query) {
-      setAlbum(allAlbumD);
+      // Als de zoekquery leeg is, toon alle albums
+      setAlbumData(allAlbumData);
       setSearchQuery('');
       return;
     }
 
-    const filteredArticles = allAlbumD.filter(item => 
+    // Filter de albums op basis van de zoekquery
+    const filteredAlbums = allAlbumData.filter(item => 
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-    setAlbum(filteredArticles);
+    setAlbumData(filteredAlbums);
     setSearchQuery(query);
   };
 
   return (
     <View style={styles.screen}>
+      {/* Zoekbalk voor het invoeren van zoekquery */}
       <TextInput
         style={styles.searchInput}
         placeholder="Search..."
         value={searchQuery}
         onChangeText={handleSearch}
       />
+
+      {/* FlatList voor het weergeven van albums */}
       <FlatList
         style={styles.list}
-        data={AlbumD}
+        data={albumData}
         keyExtractor={(item) => item.id}
-        numColumns={2}  // Display three items in a row
+        numColumns={2}  // Toon drie items in een rij
         renderItem={({ item }) => {
-          if (Platform.OS == 'android') {
+          // Bij Android de bannerImage aanpassen aan de lokale host
+          if (Platform.OS === 'android') {
             item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
           }
+
+          // Weergave van elk AlbumItem
           return (
             <AlbumItem
               id={item.id}
@@ -80,6 +103,7 @@ const NewsScreen = ({ navigation }) => {
   );
 };
 
+// Stijlen voor de component
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -96,14 +120,7 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
   },
-
-  title: {
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: 16,
-    textTransform: 'uppercase',
-    textAlign: 'center',
-  },
 });
 
-export default NewsScreen;
+// Exporteer de component
+export default AlbumScreen;

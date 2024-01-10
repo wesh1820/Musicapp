@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 const PlaylistItem = (props) => {
-
-
   return (
     <TouchableOpacity>
       <View style={styles.PlaylistItem}>
+        {/* Afspeellijstafbeelding */}
         <Image
           style={styles.thumbnail}
           source={{ uri: props.bannerImage }}
         />
+        {/* Details van de afspeellijst */}
         <View style={styles.PlaylistDetails}>
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.duration}>{props.duration}</Text>
@@ -20,6 +20,7 @@ const PlaylistItem = (props) => {
   );
 };
 
+// Stijlen
 const styles = StyleSheet.create({
   PlaylistItem: {
     flexDirection: 'row',
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 5,
     shadowRadius: 1,
-    alignItems: 'center', // Center horizontally
+    alignItems: 'center', // Horizontaal centreren
   },
   thumbnail: {
     width: 50,
@@ -46,15 +47,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     textTransform: 'uppercase',
-    textAlign: 'center', // Center text horizontally
+    textAlign: 'center', // Horizontaal centreren
   },
   duration: {
     color: 'black',
     textAlign: 'center',
-  },
-  likeButton: {
-    fontSize: 16,
-    marginLeft: 8,
   },
 });
 

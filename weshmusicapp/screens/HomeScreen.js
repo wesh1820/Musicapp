@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, FlatList, Platform } from 'react-native';
-import NewsItem from '../components/TopScreenItem';
-
+import NewsItem from '../components/TopItem';
 
 const HomeScreen = ({ navigation }) => {
-  const userName = "John";
+
+  // State voor artikelen en zoekopdracht
   const [articles, setArticles] = useState([]);
   const [allArticles, setAllArticles] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
 
+  // Functie om artikelen op te halen
   const getNewsArticles = async () => {
     try {
       let url;
       if (Platform.OS == 'android') {
+        // Vervang '<vul port in>' door de daadwerkelijke poort
         url = "http://10.0.2.2:<vul port in>/api/news/";
       } else {
         url = "http://site.ddev.site/api/new/";
@@ -29,10 +30,12 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // Haal artikelen op bij het laden van het scherm
   useEffect(() => {
     getNewsArticles();
   }, []);
 
+  // Functie om artikelen te filteren op basis van zoekopdracht
   const handleSearch = (query) => {
     if (!query) {
       setArticles(allArticles);
@@ -75,8 +78,6 @@ const HomeScreen = ({ navigation }) => {
             }}
           />
         </View>
-
-        {/* Buttons */}
         <View style={buttonsStyles.buttonsContainer}>
           <TouchableOpacity style={buttonsStyles.button} onPress={() => navigation.navigate('Playlists')}>
             <Text style={buttonsStyles.buttonText}>My Playlists</Text>
@@ -87,6 +88,7 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -98,27 +100,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     resizeMode: 'cover',
   },
-  contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '80%',
-    marginLeft: 330,
-  },
-  welcomeText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-    
-  },
   centeredContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 80,
-    marginBottom: 60, // Add this line
+    marginBottom: 60, 
   },
-
+  welcomeText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+  },
 });
 
 const flatListStyles = StyleSheet.create({
@@ -132,19 +125,14 @@ const buttonsStyles = StyleSheet.create({
   buttonsContainer: {
     alignItems: 'center',
     marginTop: 20,
-    width: '80%', // Adjust the width as needed
-  },
-  settingsIconContainer: {
-    position: 'absolute',
-    top: -445,
-    right: -24,
+    width: '80%', 
   },
   button: {
     backgroundColor: '#285d04e3',
     padding: 10,
     borderRadius: 10,
     marginBottom: 20,
-    width: '112%', // Adjust the width as needed
+    width: '112%', 
     alignItems: 'center',
     borderBottomColor: 'white',
   },

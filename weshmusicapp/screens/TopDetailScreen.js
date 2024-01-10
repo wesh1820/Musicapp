@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import TopD from '../components/TopDetails';
 
@@ -12,6 +12,7 @@ const TopScreen = ({ route, navigation }) => {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,

@@ -2,23 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, Platform, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 
+// Functionele component voor het weergeven van details van een liedje
 const NewsSong = (props) => {
+  // State variabelen
   const [songDetails, setSongDetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [showLyrics, setShowLyrics] = useState(false);
 
+  // Functie om gegevens van het liedje op te halen van de server
   const getSongData = async () => {
     try {
+      // Bepaal de basis-URL op basis van het besturingssysteem
       const baseUrl = Platform.OS === 'android' ? 'http://10.0.2.2:<vul port in>' : 'http://site.ddev.site';
       const url = `${baseUrl}/api/song/${props.articleId}`;
 
+      // Haal gegevens op van de server
       const response = await fetch(url, { method: 'GET' });
       const json = await response.json();
 
+      // Vervang de bannerImage URL voor Android
       if (Platform.OS === 'android') {
         json.bannerImage = json.bannerImage.replace('craft-news-a.ddev.site', `10.0.2.2:<vul port in>`);
       }
 
+      // Zet de opgehaalde gegevens in de state
       setSongDetails(json);
       setIsLoading(false);
     } catch (error) {
@@ -27,33 +34,41 @@ const NewsSong = (props) => {
     }
   };
 
+  // useEffect-hook om de gegevens op te halen bij het laden van de component
   useEffect(() => {
     getSongData();
   }, []);
 
+  // Handler-functie om de weergave van de songteksten te tonen
   const handleShowLyrics = () => {
     setShowLyrics(true);
   };
 
+  // Handler-functie om de weergave van de songteksten te verbergen
   const handleHideLyrics = () => {
     setShowLyrics(false);
   };
 
+  // Render de component
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      {/* Laadindicator weergeven tijdens het ophalen van gegevens */}
       {isLoading ? (
         <ActivityIndicator size="large" color="#51b60b85" />
       ) : (
         <View style={styles.container}>
+          {/* Liedjesafbeelding */}
           <View style={styles.imageContainer}>
             <Image
               style={styles.image}
               source={{ uri: songDetails.bannerImage }}
             />
           </View>
+          {/* Details van het liedje */}
           <View style={styles.contentContainer}>
             <Text style={styles.title}>{songDetails.title}</Text>
 
+            {/* Artiestinformatie weergeven als die er is */}
             {songDetails.artist && songDetails.artist.length > 0 && (
               <View>
                 {songDetails.artist.map((artist, index) => (
@@ -64,11 +79,13 @@ const NewsSong = (props) => {
               </View>
             )}
 
+            {/* Weergave van de videoclip met behulp van WebView */}
             <WebView
               source={{ uri: songDetails.videoclip }}
               style={styles.video}
             />
 
+            {/* Knop om de songteksten weer te geven of te verbergen */}
             {!showLyrics ? (
               <TouchableOpacity onPress={handleShowLyrics}>
                 <Text style={styles.showLyricsButton}>Show Lyrics</Text>
@@ -79,6 +96,7 @@ const NewsSong = (props) => {
               </TouchableOpacity>
             )}
 
+            {/* Weergave van de songteksten als deze zijn ingeschakeld */}
             {showLyrics && songDetails.lyrics && (
               <View style={styles.lyricsContainer}>
                 <Text style={[styles.lyrics, styles.centeredText]}>
@@ -93,6 +111,7 @@ const NewsSong = (props) => {
   );
 };
 
+// Stijlen voor de component
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
@@ -166,4 +185,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exporteer de component
 export default NewsSong;

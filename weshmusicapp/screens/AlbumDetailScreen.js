@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 
-import Album from '../components/AlbumDetails';
+import AlbumDetails from '../components/AlbumDetails';  // Gebruik de juiste componentnaam
 
-const AlbumScreen = ({ route, navigation }) => {
+const AlbumDetailScreen = ({ route, navigation }) => {
   const { id } = route.params;
 
   return (
     <View style={styles.screen}>
-      <Album articleId={id} />
+      {/* Render de AlbumDetails-component en geef het artikel-ID door als eigenschap */}
+      <AlbumDetails articleId={id} />
     </View>
   );
 }
+
+// Stijlen voor de component
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "#F8F6F6",
-  }
+  },
 });
-export default AlbumScreen;
+
+// Exporteer de component
+export default AlbumDetailScreen;
