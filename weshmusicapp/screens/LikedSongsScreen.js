@@ -30,7 +30,6 @@ const LikedSongsScreen = ({ route }) => {
 
   return (
     <View style={styles.screen}>
-      <Text>Liked Songs:</Text>
       <TextInput
         style={styles.searchInput}
         placeholder="Search songs"

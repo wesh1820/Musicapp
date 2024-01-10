@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fbfafa',
   },
   searchInput: {
     height: 40,
@@ -152,6 +151,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    marginBottom: 15,
   },
   sectionTitle: {
     fontSize: 18,
@@ -159,16 +159,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     color: 'white', // Change the color to green or any desired color
     padding: 10, // Adjust padding as needed
-    width: 135,
+    width: 353,
+    backgroundColor: '#51b60b85',
   },
   // New styles for the container around the Liked Songs button
-  buttonContainer: {
-    borderRadius: 15,
-    overflow: 'hidden',
-    backgroundColor: '#2b6700ce', // Background color
-    padding: 1, // Adjust padding as needed
-    width: 135,
-  },
+
 });
 
 export default SongScreen;

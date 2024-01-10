@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Center horizontally
   },
   thumbnail: {
-    width: 150,
-    height: 150,
+    width: 330,
+    height: 330,
     borderRadius: 10,
     marginBottom: 8,
     margin: 10,

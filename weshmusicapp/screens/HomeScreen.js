@@ -1,97 +1,90 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView, TextInput, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, FlatList, Platform } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import NewsItem from '../components/TopScreenItem';
-import AlbumItem from '../components/AlbumItem';
+
 
 const HomeScreen = ({ navigation }) => {
-  const [news, setNews] = useState([]);
-  const [albums, setAlbums] = useState([]);
+  const userName = "John";
+  const [articles, setArticles] = useState([]);
+  const [allArticles, setAllArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const getTopItems = async () => {
+  const getNewsArticles = async () => {
     try {
-      const newsUrl = Platform.OS === 'android'
-        ? "http://10.0.2.2:<vul port in>/api/news/"
-        : "http://site.ddev.site/api/new/";
+      let url;
+      if (Platform.OS == 'android') {
+        url = "http://10.0.2.2:<vul port in>/api/news/";
+      } else {
+        url = "http://site.ddev.site/api/new/";
+      }
 
-      const albumsUrl = Platform.OS === 'android'
-        ? "http://10.0.2.2:<vul port in>/api/albums/"
-        : "http://site.ddev.site/api/album/";
-
-      const [newsResponse, albumsResponse] = await Promise.all([
-        fetch(newsUrl, { method: "GET" }),
-        fetch(albumsUrl, { method: "GET" }),
-      ]);
-
-      const [newsJson, albumsJson] = await Promise.all([
-        newsResponse.json(),
-        albumsResponse.json(),
-      ]);
-
-      setNews(newsJson.items);
-      setAlbums(albumsJson.items);
+      const response = await fetch(url, {
+        method: "GET",
+      });
+      const json = await response.json();
+      setArticles(json.items);
+      setAllArticles(json.items);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    getTopItems();
+    getNewsArticles();
   }, []);
 
   const handleSearch = (query) => {
-    const filteredNews = news.filter(item =>
+    if (!query) {
+      setArticles(allArticles);
+      setSearchQuery('');
+      return;
+    }
+
+    const filteredArticles = allArticles.filter(item => 
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-
-    const filteredAlbums = albums.filter(item =>
-      item.title.toLowerCase().includes(query.toLowerCase())
-    );
-
+    setArticles(filteredArticles);
     setSearchQuery(query);
-    setNews(filteredNews);
-    setAlbums(filteredAlbums);
   };
 
-  const renderNewsItem = ({ item }) => (
-    <NewsItem
-      {...item}
-      navigation={navigation}
-      onSelectItem={(selectedId) => {
-        navigation.navigate('Top40', { id: selectedId });
-      }}
-    />
-  );
-
-  const renderAlbumItem = ({ item }) => (
-    <AlbumItem
-      {...item}
-      navigation={navigation}
-      onSelectItem={(selectedId) => {
-        navigation.navigate('AlbumDetails', { id: selectedId });
-      }}
-    />
-  );
-
   return (
-    <ScrollView horizontal style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>News</Text>
-        <FlatList
-          data={news}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderNewsItem}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Albums</Text>
-        <FlatList
-          data={albums}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderAlbumItem}
-        />
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <ImageBackground style={styles.background}>
+        <View style={styles.centeredContainer}>
+           <Text style={styles.welcomeText}>The top 40 of this week!</Text>
+          <FlatList
+            style={flatListStyles.list}
+            data={articles}
+            keyExtractor={(item) => item.id}
+            numColumns={10}
+            renderItem={({ item }) => {
+              if (Platform.OS == 'android') {
+                item.bannerImage = item.bannerImage.replace('craft-news-a.ddev.site', '10.0.2.2:<vul port in>');
+              }
+              return (
+                <NewsItem
+                  id={item.id}
+                  title={item.title}
+                  bannerImage={item.bannerImage}
+                  navigation={navigation}
+                  onSelectArticle={(selectedId) => {
+                    navigation.navigate('Top40', { id: selectedId });
+                  }}
+                />
+              );
+            }}
+          />
+        </View>
+
+        {/* Buttons */}
+        <View style={buttonsStyles.buttonsContainer}>
+          <TouchableOpacity style={buttonsStyles.button} onPress={() => navigation.navigate('Playlists')}>
+            <Text style={buttonsStyles.buttonText}>My Playlists</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </View>
   );
 };
 
@@ -99,14 +92,66 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  section: {
-    flexDirection: 'column',
-    marginRight: 20, // Ruimte tussen de secties
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'cover',
   },
-  sectionTitle: {
-    fontSize: 24,
+  contentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '80%',
+    marginLeft: 330,
+  },
+  welcomeText: {
+    fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    color: 'black',
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 80,
+    marginBottom: 60, // Add this line
+  },
+
+});
+
+const flatListStyles = StyleSheet.create({
+  list: {
+    flex: 1,
+    fontSize: 18,
+  },
+});
+
+const buttonsStyles = StyleSheet.create({
+  buttonsContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    width: '80%', // Adjust the width as needed
+  },
+  settingsIconContainer: {
+    position: 'absolute',
+    top: -445,
+    right: -24,
+  },
+  button: {
+    backgroundColor: '#51b60b85',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 40,
+    width: '100%', // Adjust the width as needed
+    alignItems: 'center',
+    borderBottomWidth: 3,
+    borderBottomColor: 'white',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
